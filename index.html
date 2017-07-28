@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>User Login Demo</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="https://cdn.flybase.io/flybase.js"></script>
+		<script src="https://cdn.flybase.io/libs/fblogin.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdn.flybase.io/css/demo.css">
+	</head>
+	<body>
+		<div class='example-chat l-demo-container'>
+			<header id="pageHeader">
+				Signup or Login
+			</header>
+			<div class='example-chat-toolbar'>
+				<label for='nameInput'>Email:</label>
+				<input type="text" id="nameInput" placeholder="enter a username..." required required=true />
+			</div>
+			<div class='example-chat-toolbar'>
+				<label for='passInput'>Password:</label>
+				<input type="text" id="passInput" placeholder="enter a password..." required required=true />
+			</div>
+			<footer>
+				<span id="btnpanel">
+					<button type="button" class="button big primary  icon user" id="signupInput">Sign up</button>
+					<span>Or, Already a user?</span>
+					<button type="button" class="button big icon unlock" id="loginInput">Login</button>
+				</span>
+				<span id="logpanel" style="display:none;">
+					<button type="button" class="button big icon lock" id="logoutInput">Logout</button>
+				</span>
+			</footer>
+		</div>
+		<script type='text/javascript'>
+		$(function(){
+			// Get a reference to the root of the chat data.
+			var messagesRef = new Flybase("74c8264f-cd6f-4c07-8baf-b1d241596dec", "my-app", "chat");
+
+//			create a login Reference to our fbLogin object to handle registrations / logins...
+			var loginRef = new fbLogin( messagesRef );
+			loginRef.datamcflyRef.once('value', function (data) {
+				console.log( "we found " + data.count() + " records");
+				data.forEach( function(message){
+					console.log( message.value() );
+				});
+			});
+
+			$("#signupInput").click( function(e){
+				var email = $("#nameInput").val();
+				var pass = $("#passInput").val();
+
+				loginRef.createUser(email,pass, function(error) {
+					if (error === null) {
+						console.log("User created successfully");
+						$("#signupInput").attr("disabled",true);
+					} else {
+						console.log("Error creating user:", error);
+					}
+				});
+
+				return false;
+			});
+
+			$("#loginInput").click( function(e){
+				var email = $("#nameInput").val();
+				var pass = $("#passInput").val();
+				loginRef.login(email, pass, function(error, userData) {
+					if (error) {
+						console.log("Login Failed!", error);
+					} else {
+						console.log("Authenticated successfully with payload:", userData);
+						whoami();
+					}
+				});
+				return false;
+			});
+
+//			if the user is logged in, then grab their user id and info..
+			function whoami(){
+				if( loginRef.isLoggedIn() ){
+					var uid = loginRef._getToken();
+					$("#pageHeader").text( "Logged in as " + uid );
+					loginRef.getUser( uid, function( user ){
+						$("#nameInput").val( user.email );
+						$("#passInput").val( user.password );
+					});
+					$("#btnpanel").hide();
+					$("#logpanel").show();
+				}
+			}
+
+			$("#logoutInput").click( function(e){
+//				log the user out...
+				loginRef.logout();
+				$("#nameInput").val('');
+				$("#passInput").val('');
+				$("#logpanel").hide();
+				$("#btnpanel").show();
+				$("#pageHeader").text("Signup or Login");
+				return false;
+			});
+
+			whoami();
+		});
+		</script>
+	</body>
+</html>
