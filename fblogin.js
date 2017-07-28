@@ -11,7 +11,7 @@
 */
 
 /*
-ref.createUser("roger@flybase.com","mypassword", function(error) {
+ref.createUser("roger@datamcfly.com","mypassword", function(error) {
 	if (error === null) {
 		console.log("User created successfully");
 	} else {
@@ -19,7 +19,7 @@ ref.createUser("roger@flybase.com","mypassword", function(error) {
 	}
 });
 
-ref.login("roger@flybase.com","mypassword", function(error, userData) {
+ref.login("roger@datamcfly.com","mypassword", function(error, userData) {
 	if (error) {
 		console.log("Login Failed!", error);
 	} else {
@@ -27,7 +27,7 @@ ref.login("roger@flybase.com","mypassword", function(error, userData) {
 	}
 });
 
-ref.changeEmail("roger@flybase.com","flybase@flybase.com","mypassword", function(error) {
+ref.changeEmail("roger@datamcfly.com","flybase@datamcfly.com","mypassword", function(error) {
 	if (error === null) {
 		console.log("Email changed successfully");
 	} else {
@@ -35,7 +35,7 @@ ref.changeEmail("roger@flybase.com","flybase@flybase.com","mypassword", function
 	}
 });
 
-ref.changePassword("roger@flybase.com", "mypassword", "mynewpassword", function(error) {
+ref.changePassword("roger@datamcfly.com", "mypassword", "mynewpassword", function(error) {
 	if (error === null) {
 		console.log("Password changed successfully");
 	} else {
@@ -48,7 +48,7 @@ ref.getUser(user_id, function(user) {
 });
 
 
-ref.resetPassword("roger@flybase.com", function(error) {
+ref.resetPassword("roger@datamcfly.com", function(error) {
 	if (error === null) {
 		console.log("Password reset email sent successfully");
 	} else {
@@ -56,7 +56,7 @@ ref.resetPassword("roger@flybase.com", function(error) {
 	}
 });
 
-ref.removeUser("roger@flybase.com", "mypassword", function(error) {
+ref.removeUser("roger@datamcfly.com", "mypassword", function(error) {
 	if (error === null) {
 		console.log("User removed successfully");
 	} else {
