@@ -38,7 +38,7 @@
 
 //			create a login Reference to our fbLogin object to handle registrations / logins...
 			var loginRef = new fbLogin( messagesRef );
-			loginRef.datamcflyRef.once('value', function (data) {
+			loginRef.flybaseRef.once('value', function (data) {
 				console.log( "we found " + data.count() + " records");
 				data.forEach( function(message){
 					console.log( message.value() );
